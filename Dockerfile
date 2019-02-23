@@ -29,4 +29,7 @@ EXPOSE 5000
 WORKDIR /testssl
 
 # Set the default command to execute    
-CMD python3 SSLTestPortal.py
+# CMD python3 SSLTestPortal.py
+ENV FLASK_ENV=development 
+ENV FLASK_APP=SSLTestPortal.py 
+CMD flask run
