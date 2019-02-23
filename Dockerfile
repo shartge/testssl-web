@@ -16,6 +16,9 @@ RUN apt-get update --fix-missing -y && apt-get -y dist-upgrade && \
 # Copy the application folder inside the container
 ADD ./testssl.sh-webfrontend/ /testssl
 
+# Clean git cruft
+RUN find /testssl -name ".git*" -delete
+
 # Create Log and  Result folder
 RUN mkdir -p /testssl/log /testssl/result/json /testssl/result/html
 
