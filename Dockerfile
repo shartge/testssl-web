@@ -32,4 +32,6 @@ WORKDIR /testssl
 # CMD python3 SSLTestPortal.py
 ENV FLASK_ENV=development 
 ENV FLASK_APP=SSLTestPortal.py 
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
 CMD flask run
