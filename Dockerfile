@@ -17,7 +17,7 @@ RUN apt-get update --fix-missing -y && apt-get -y dist-upgrade && \
 ADD ./testssl.sh-webfrontend/ /testssl
 
 # Clean git cruft
-RUN find /testssl -name ".git*" -delete
+RUN find /testssl -name ".git*" -exec rm -rv {} +
 
 # Create Log and  Result folder
 RUN mkdir -p /testssl/log /testssl/result/json /testssl/result/html
