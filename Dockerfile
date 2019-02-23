@@ -5,6 +5,9 @@
 FROM debian:stretch
 ENV DEBIAN_FRONTEND noninteractive
 
+RUN groupadd -g 999 testssl && useradd -r -u 999 -g testssl testssl
+USER root
+
 # File Author / Maintainer
 MAINTAINER Sven Hartge
 
@@ -19,8 +22,11 @@ ADD ./testssl.sh-webfrontend/ /testssl
 # Clean git cruft
 RUN find /testssl -name ".git*" -exec rm -rv {} +
 
-# Create Log and  Result folder
-RUN mkdir -p /testssl/log /testssl/result/json /testssl/result/html
+# Create Log and Result folder
+RUN mkdir -p /testssl/log /testssl/result/json /testssl/result/html && chown testssl:testssl /testssl/log /testssl/result/json /testssl/result/html
+
+# Run as non-root user
+USER testssl
 
 # Expose ports
 EXPOSE 5000
