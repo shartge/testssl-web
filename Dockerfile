@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND noninteractive
 MAINTAINER Sven Hartge
 
 # Install Packages
-RUN apt-get update --fix-missing && \
+RUN apt-get update --fix-missing -y && apt-get -y dist-upgrade && \
 	apt-get --no-install-recommends -y install openssl net-tools dnsutils aha python3 python3-pip python3-setuptools python3-flask && \
 	apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
