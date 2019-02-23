@@ -10,9 +10,6 @@ USER root
 # File Author / Maintainer
 MAINTAINER Sven Hartge
 
-# Minimize the image
-COPY 00dpkg-minimize-debian /etc/dpkg/dpkg.cfg.d/
-
 # Install Packages
 RUN apt-get update --fix-missing -y && apt-get -y dist-upgrade && \
 	apt-get --no-install-recommends -y install openssl net-tools dnsutils aha python3-pkg-resources python3-flask python3-waitress bsdmainutils procps gosu && \
