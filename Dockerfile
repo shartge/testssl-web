@@ -1,14 +1,12 @@
 ############################################################
 # Dockerfile to build testssl.sh WebFrontend
-# Based on Ubuntu
 ############################################################
 
-# Set the base image to Ubuntu
-FROM ubuntu:16.10
+FROM debian:stretch
 ENV DEBIAN_FRONTEND noninteractive
 
 # File Author / Maintainer
-MAINTAINER Markus Kraus
+MAINTAINER Sven Hartge
 
 # Install Packages
 RUN apt-get -qq update --fix-missing && \
