@@ -6,7 +6,7 @@ This Docker Image is based in the [testssl.sh-webfrontend](https://github.com/TK
 The testssl.sh-webfrontend Application uses the [testssl.sh](https://github.com/drwetter/testssl.sh) Script.
 
 ```
-docker pull shartge/testssl-webfrontend
+docker pull shartge/testssl-web
 docker run --rm --name testssl-web -p 5000:5000 shartge/testssl-web
 ```
 
