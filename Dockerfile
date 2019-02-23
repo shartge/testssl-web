@@ -10,7 +10,7 @@ MAINTAINER Sven Hartge
 
 # Install Packages
 RUN apt-get update --fix-missing -y && apt-get -y dist-upgrade && \
-	apt-get --no-install-recommends -y install openssl net-tools dnsutils aha python3-setuptools python3-flask && \
+	apt-get --no-install-recommends -y install openssl net-tools dnsutils aha python3-setuptools python3-flask bsdmainutils && \
 	apt-get --purge autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy the application folder inside the container
