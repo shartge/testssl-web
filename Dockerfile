@@ -10,7 +10,7 @@ MAINTAINER Sven Hartge
 
 # Install Packages
 RUN apt-get update --fix-missing -y && apt-get -y dist-upgrade && \
-	apt-get --no-install-recommends -y install openssl net-tools dnsutils aha python3-setuptools python3-flask bsdmainutils procps && \
+	apt-get --no-install-recommends -y install openssl net-tools dnsutils aha python3-setuptools python3-flask python3-waitress bsdmainutils procps && \
 	apt-get --purge autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy the application folder inside the container
@@ -30,8 +30,6 @@ WORKDIR /testssl
 
 # Set the default command to execute    
 # CMD python3 SSLTestPortal.py
-ENV FLASK_ENV=development 
-ENV FLASK_APP=SSLTestPortal.py 
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
-CMD flask run --host=0.0.0.0
+CMD waitress-serve-python3 --port=5000 SSLTestPortal:application
