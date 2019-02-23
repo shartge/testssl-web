@@ -1,0 +1,6 @@
+# Paths to purge
+path-exclude=/usr/share/locale/*
+path-exclude=/usr/share/gnome/help/*/*
+path-exclude=/usr/share/omf/*/*-*.emf
+path-exclude=/usr/share/man/*
+path-exclude=/usr/share/doc/*

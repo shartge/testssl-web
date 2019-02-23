@@ -2,7 +2,7 @@
 # Dockerfile to build testssl.sh WebFrontend
 ############################################################
 
-FROM debian:stretch
+FROM debian:stretch-slim
 ENV DEBIAN_FRONTEND noninteractive
 
 USER root
@@ -10,9 +10,12 @@ USER root
 # File Author / Maintainer
 MAINTAINER Sven Hartge
 
+# Minimize the image
+COPY 00dpkg-minimize-debian /etc/dpkg/dpkg.cfg.d/
+
 # Install Packages
 RUN apt-get update --fix-missing -y && apt-get -y dist-upgrade && \
-	apt-get --no-install-recommends -y install openssl net-tools dnsutils aha python3-setuptools python3-flask python3-waitress bsdmainutils procps gosu && \
+	apt-get --no-install-recommends -y install openssl net-tools dnsutils aha python3-pkg-resources python3-flask python3-waitress bsdmainutils procps gosu && \
 	apt-get --purge autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy the application folder inside the container
