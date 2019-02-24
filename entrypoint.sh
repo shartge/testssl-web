@@ -2,33 +2,20 @@
 
 # Setup
 
-GROUPNAME="testssl"
-USERNAME="testssl"
-
-LUID=${LOCAL_UID:-0}
-LGID=${LOCAL_GID:-0}
-
-# Step down from host root to well-known nobody/nogroup user
-
-if [ $LUID -eq 0 ]
-then
-    LUID=65534
-fi
-if [ $LGID -eq 0 ]
-then
-    LGID=65534
-fi
-
-# Create user and group
-
-groupadd -o -g $LGID $GROUPNAME >/dev/null 2>&1 ||
-groupmod -o -g $LGID $GROUPNAME >/dev/null 2>&1
-useradd -o -u $LUID -g $GROUPNAME -s /bin/false $USERNAME >/dev/null 2>&1 ||
-usermod -o -u $LUID -g $GROUPNAME -s /bin/false $USERNAME >/dev/null 2>&1
-mkhomedir_helper $USERNAME
-
-# The rest...
+GROUPNAME="www-data"
+USERNAME="www-data"
 
 chown -R $USERNAME:$GROUPNAME /testssl/log /testssl/result/json /testssl/result/html
-exec gosu $USERNAME:$GROUPNAME waitress-serve-python3 --port=5000 SSLTestPortal:application
 
+service nginx start && uwsgi \
+    --uid $USERNAME \
+    -s /tmp/uwsgi.sock \
+    -M -p 4 \
+    --harakiri 450 \
+    --plugin python3 \
+    --die-on-term \
+    --manage-script-name \
+    --chdir /testssl \
+    --python-path /testssl \
+    --mount /=SSLTestPortal:application
+    
