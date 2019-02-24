@@ -28,6 +28,9 @@ RUN mkdir -p /testssl/log /testssl/result/json /testssl/result/html
 # Expose ports
 EXPOSE 5000
 
+# Set Application base directory
+WORKDIR /testssl
+
 # Start
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
