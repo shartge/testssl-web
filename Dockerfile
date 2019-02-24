@@ -20,8 +20,10 @@ ADD ./testssl.sh-webfrontend/ /testssl
 COPY entrypoint.sh /
 
 # Configure nginx
+
 COPY nginx.conf /etc/nginx/
 COPY testssl.conf /etc/nginx/sites-enabled/
+RUN mkdir -p /var/cache/nginx/cache
 RUN rm /etc/nginx/sites-enabled/default
 
 # Clean git cruft
