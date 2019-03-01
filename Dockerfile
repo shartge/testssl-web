@@ -30,14 +30,14 @@ RUN rm /etc/nginx/sites-enabled/default
 # Clean git cruft
 RUN find /testssl -name ".git*" -exec rm -rv {} +
 
-# Create Log and Result folder
-RUN mkdir -p /testssl/log /testssl/result/json /testssl/result/html
-
 # Expose ports
 EXPOSE 5000
 # Export Volumes
 VOLUME /testssl/log
 VOLUME /testssl/result
+
+# Create Log and Result folder
+RUN mkdir -p /testssl/log /testssl/result/json /testssl/result/html
 
 # Set Application base directory
 WORKDIR /testssl
