@@ -13,7 +13,7 @@ MAINTAINER Sven Hartge <sven@svenhartge.de>
 # Install Packages
 RUN apt-get update --fix-missing -y && apt-get -y dist-upgrade && \
 	apt-get --no-install-recommends -y install openssl net-tools dnsutils aha python3-pkg-resources python3-flask bsdmainutils procps nginx-light uwsgi uwsgi-plugin-python3 supervisor && \
-	apt-get --purge autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /var/cache/apt* /tmp/* /var/tmp/*
+	apt-get --purge autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /var/cache/apt* /tmp/* /var/tmp/* /var/log/apt/* /var/log/*log
 
 # Copy the application folder inside the container
 ADD ./testssl.sh-webfrontend/ /testssl
@@ -45,4 +45,4 @@ COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Start
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord","-c","/etc/supervisor/supervisord.conf"]
