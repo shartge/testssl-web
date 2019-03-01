@@ -17,7 +17,8 @@ RUN apt-get update --fix-missing -y && apt-get -y dist-upgrade && \
 
 # Copy the application folder inside the container
 ADD ./testssl.sh-webfrontend/ /testssl
-COPY entrypoint.sh /
+ADD ./testssl.sh/ /testssl/testssl.sh
+COPY start.sh /
 
 # Configure nginx
 
@@ -33,10 +34,13 @@ RUN find /testssl -name ".git*" -exec rm -rv {} +
 RUN mkdir -p /testssl/log /testssl/result/json /testssl/result/html
 
 # Expose ports
-EXPOSE 80
+EXPOSE 5000
+# Export Volumes
+VOLUME /testssl/log
+VOLUME /testssl/result
 
 # Set Application base directory
 WORKDIR /testssl
 
 # Start
-CMD /entrypoint.sh
+CMD /start.sh
