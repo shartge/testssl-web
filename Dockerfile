@@ -21,8 +21,6 @@ ADD ./testssl.sh/ /testssl/testssl.sh
 # Clean git cruft
 RUN find /testssl -name ".git*" -exec rm -rv {} +
 
-COPY start.sh /
-
 # Configure nginx
 COPY nginx.conf /etc/nginx/
 COPY testssl.conf /etc/nginx/sites-enabled/
@@ -43,6 +41,7 @@ VOLUME /testssl/output
 # Set Application base directory
 WORKDIR /testssl
 
+COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Start
