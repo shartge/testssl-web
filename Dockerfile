@@ -12,7 +12,7 @@ MAINTAINER Sven Hartge <sven@svenhartge.de>
 
 # Install Packages
 RUN apt-get update --fix-missing -y && apt-get -y dist-upgrade && \
-	apt-get --no-install-recommends -y install openssl net-tools dnsutils aha python3-pkg-resources python3-flask bsdmainutils procps nginx-light uwsgi uwsgi-plugin-python3 supervisor && \
+	apt-get --no-install-recommends -y install libpam-modules-bin openssl net-tools dnsutils aha python3-pkg-resources python3-flask bsdmainutils procps nginx-light uwsgi uwsgi-plugin-python3 supervisor && \
 	apt-get --purge autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /var/cache/apt* /tmp/* /var/tmp/* /var/log/apt/* /var/log/*log
 
 # Copy the application folder inside the container
@@ -27,11 +27,20 @@ COPY testssl.conf /etc/nginx/sites-enabled/
 RUN mkdir -p /var/cache/nginx/cache
 RUN rm /etc/nginx/sites-enabled/default
 
+# Configure supervisord
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
 # Configure uwsgi
 COPY uwsgi.ini /etc/uwsgi/
 
-# Configure supervisord
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# Number of uWSGI processes and threads: amount of max. parallel running SSL checks
+ENV UWSGI_PROCESSES 4
+ENV UWSGI_THREADS 2
+
+# UID/GID used inside the container. Change to map them to a different UID/GID from outside the container
+# Note: UID/GID 0 (root) is always mapped to nobody:nogroup for security reasons.
+ENV LOCAL_UID 65534
+ENV LOCAL_GID 65534
 
 # Expose ports
 EXPOSE 5000
