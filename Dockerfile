@@ -18,8 +18,6 @@ RUN apt-get update --fix-missing -y && apt-get -y dist-upgrade && \
 # Copy the application folder inside the container
 ADD ./testssl.sh-webfrontend/ /testssl
 ADD ./testssl.sh/ /testssl/testssl.sh
-# Clean git cruft
-RUN find /testssl -name ".git*" -exec rm -rv {} +
 
 # Configure nginx
 COPY nginx.conf /etc/nginx/
