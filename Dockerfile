@@ -8,12 +8,17 @@ FROM debian:stretch-slim
 ENV DEBIAN_FRONTEND noninteractive
 
 # File Author / Maintainer
-MAINTAINER Sven Hartge <sven@svenhartge.de>
+LABEL maintainer="sven@svenhartge.de"
 
 # Install Packages
-RUN apt-get update --fix-missing -y && apt-get -y dist-upgrade && \
-	apt-get --no-install-recommends -y install libpam-modules-bin openssl net-tools dnsutils aha python3-pkg-resources python3-flask bsdmainutils procps nginx-light uwsgi uwsgi-plugin-python3 supervisor && \
-	apt-get --purge autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /var/cache/apt* /tmp/* /var/tmp/* /var/log/apt/* /var/log/*log
+RUN apt-get update --fix-missing -y && \
+	apt-get --no-install-recommends -y install \
+		libpam-modules-bin openssl net-tools dnsutils aha \
+		python3-pkg-resources python3-flask bsdmainutils procps \
+		nginx-light uwsgi uwsgi-plugin-python3 supervisor && \
+	apt-get --purge autoremove -y && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/* /var/cache/apt* /tmp/* /var/tmp/* /var/log/apt/* /var/log/*log
 
 # Copy the application folder inside the container
 ADD ./testssl.sh-webfrontend/ /testssl
@@ -21,9 +26,8 @@ ADD ./testssl.sh/ /testssl/testssl.sh
 
 # Configure nginx
 COPY nginx.conf /etc/nginx/
-COPY testssl.conf /etc/nginx/sites-enabled/
+COPY testssl.conf /etc/nginx/sites-enabled/default
 RUN mkdir -p /var/cache/nginx/cache
-RUN rm /etc/nginx/sites-enabled/default
 
 # Configure supervisord
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
