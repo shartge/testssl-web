@@ -44,6 +44,10 @@ ENV UWSGI_THREADS 2
 ENV LOCAL_UID 65534
 ENV LOCAL_GID 65534
 
+# Set the timeout for the portal site (default 300 seconds)
+# The nginx uwsgi_read_timeout is derived from that by adding 10 seconds
+ENV TEST_TIMEOUT 300
+
 # Expose ports
 EXPOSE 5000
 # Export Volume
