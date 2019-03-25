@@ -22,6 +22,16 @@ Example:
 docker run --rm --name testssl-web -e UWSGI_THREADS=8 -e UWSGI_PROCESSES=2 -p 5000:5000 hartge/testssl-web
 ```
 
+### Setting the timeout
+
+You can configure the timeout for each test by setting the variable `TEST_TIMEOUT`.
+
+Example:
+
+```
+docker run --rm --name testssl-web -e TEST_TIMEOUT=300 -p 5000:5000 hartge/testssl-web
+```
+
 ### Result data
 
 The output of the `testssl.sh` script is the directory `/testssl/output`, exported as docker volume.
