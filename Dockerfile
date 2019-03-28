@@ -50,8 +50,6 @@ ENV TEST_TIMEOUT 300
 
 # Expose ports
 EXPOSE 5000
-# Export Volume
-VOLUME /testssl/output
 
 # Set Application base directory
 WORKDIR /testssl
