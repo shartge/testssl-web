@@ -1,8 +1,8 @@
-# VERSION 0.2
+# VERSION 0.3
 # AUTHOR:         Sven Hartge <sven@svenhartge.de>
 # DESCRIPTION:    Image with testssl.sh and testssl.sh-webfrontend
 # TO_BUILD:       docker build -t testssl-web .
-# TO_RUN:         docker run -d -p 5000:5000 -v /tmp/testssl/output:/testssl/output --name testssl-web testssl-web
+# TO_RUN:         docker run -d -p 5000:5000 --name testssl-web testssl-web
 
 FROM debian:stretch-slim
 ENV DEBIAN_FRONTEND noninteractive
@@ -38,11 +38,6 @@ COPY uwsgi.ini /etc/uwsgi/
 # Number of uWSGI processes and threads: amount of max. parallel running SSL checks
 ENV UWSGI_PROCESSES 4
 ENV UWSGI_THREADS 2
-
-# UID/GID used inside the container. Change to map them to a different UID/GID from outside the container
-# Note: UID/GID 0 (root) is always mapped to nobody:nogroup for security reasons.
-ENV LOCAL_UID 65534
-ENV LOCAL_GID 65534
 
 # Set the timeout for the portal site (default 300 seconds)
 # The nginx uwsgi_read_timeout is derived from that by adding 10 seconds
