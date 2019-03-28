@@ -13,7 +13,7 @@ LABEL maintainer="sven@svenhartge.de"
 # Install Packages
 RUN apt-get update --fix-missing -y && \
 	apt-get --no-install-recommends -y install \
-		libpam-modules-bin openssl net-tools dnsutils aha \
+		libpam-modules-bin openssl net-tools ca-certificates dnsutils aha \
 		python3-pkg-resources python3-flask bsdmainutils procps \
 		nginx-light uwsgi uwsgi-plugin-python3 supervisor && \
 	apt-get --purge autoremove -y && \
