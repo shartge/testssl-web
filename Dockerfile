@@ -43,6 +43,10 @@ ENV UWSGI_THREADS 2
 # The nginx uwsgi_read_timeout is derived from that by adding 10 seconds
 ENV TEST_TIMEOUT 300
 
+# Enable debugging for testssl.sh by setting this variable to a higher value
+# Values from 0 (no debugging, default) to 6 (maximum debugging) are supported
+ENV TESTSSLDEBUG 0
+
 # Expose ports
 EXPOSE 5000
 
