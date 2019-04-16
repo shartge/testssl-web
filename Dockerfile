@@ -27,7 +27,6 @@ ADD ./testssl.sh/ /testssl/testssl.sh
 # Configure nginx
 COPY nginx.conf /etc/nginx/
 COPY testssl.conf /etc/nginx/sites-enabled/default
-RUN mkdir -p /var/cache/nginx/cache
 
 # Configure supervisord
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
