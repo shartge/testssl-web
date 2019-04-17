@@ -44,3 +44,18 @@ Example:
 docker run --rm --name testssl-web -e TESTSSLDEBUG=2 -p 5000:5000 hartge/testssl-web
 ```
 
+### Integration into external Nginx
+
+If you want to use testssl-web behind a Nginx proxy, you need to make sure to disable `proxy_buffering` or otherwise the streaming updates during the running test will not appear.
+
+Example:
+
+```
+location /testssl {
+    proxy_pass       http://localhost:5000;
+    proxy_set_header Host      $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_buffering  off;
+}
+```
+
