@@ -21,8 +21,8 @@ RUN apt-get update --fix-missing -y && \
 	rm -rf /var/lib/apt/lists/* /var/cache/apt* /tmp/* /var/tmp/* /var/log/apt/* /var/log/*log
 
 # Copy the application folder inside the container
-ADD ./testssl.sh-webfrontend/ /testssl
-ADD ./testssl.sh/ /testssl/testssl.sh
+COPY ./testssl.sh-webfrontend/ /testssl
+COPY ./testssl.sh/ /testssl/testssl.sh
 
 # Configure nginx
 COPY nginx.conf /etc/nginx/
