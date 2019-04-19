@@ -1,2 +1,8 @@
 .git*
 */.git*
+testssl.sh/bin/openssl.Darwin.x86_64
+testssl.sh/bin/openssl.FreeBSD.amd64
+testssl.sh/bin/openssl.Linux.i686
+testssl.sh/t
+testssl.sh/utils
+testssl.sh/doc

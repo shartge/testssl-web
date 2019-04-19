@@ -1,5 +1,5 @@
 [submodule "testssl.sh-webfrontend"]
-	path = testssl.sh-webfrontend
+	path = webfrontend
 	url = https://github.com/shartge/testssl.sh-webfrontend
 [submodule "testssl.sh"]
 	path = testssl.sh

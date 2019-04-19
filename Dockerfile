@@ -33,7 +33,7 @@ RUN apt-get update --fix-missing -y && \
 	rm -rf /var/lib/apt/lists/* /var/cache/apt* /tmp/* /var/tmp/* /var/log/apt/* /var/log/*log
 
 # Copy applications and entrypoint inside the container
-COPY testssl.sh-webfrontend/ /testssl
+COPY webfrontend/ /testssl
 COPY testssl.sh/ /testssl/testssl.sh
 COPY entrypoint.sh /
 
