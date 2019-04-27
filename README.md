@@ -2,8 +2,9 @@
 
 ## Project Details
 
-This Docker Image is based in the [testssl.sh-webfrontend](https://github.com/TKCERT/testssl.sh-webfrontend) Project from [thyssenkrupp CERT](https://github.com/TKCERT).
-The testssl.sh-webfrontend Application uses the [testssl.sh](https://github.com/drwetter/testssl.sh) Script.
+This Docker Image is is a fork of [mycloudrevolution/testssl-webfrontend](https://github.com/mycloudrevolution/testssl-webfrontend) from Markus Kraus
+based on the [testssl.sh-webfrontend](https://github.com/TKCERT/testssl.sh-webfrontend) Project from [thyssenkrupp CERT](https://github.com/TKCERT).
+The testssl.sh-web Application uses the [testssl.sh](https://github.com/drwetter/testssl.sh) Script from Dirk Wetter.
 
 ```
 docker pull hartge/testssl-web
