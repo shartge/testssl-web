@@ -4,7 +4,7 @@
 # TO_BUILD:       docker build -t testssl-web .
 # TO_RUN:         docker run -d -p 5000:5000 --name testssl-web testssl-web
 
-FROM debian:stretch-slim
+FROM debian:buster-slim
 ENV DEBIAN_FRONTEND noninteractive
 LABEL maintainer="sven@svenhartge.de"
 
