@@ -25,7 +25,7 @@ ENV TESTSSLDEBUG 0
 # Install Packages
 RUN apt-get update --fix-missing -y && \
 	apt-get --no-install-recommends -y install \
-		openssl net-tools dnsutils aha \
+		openssl net-tools dnsutils aha xxd \
 		python3-pkg-resources python3-flask bsdmainutils procps \
 		nginx-light uwsgi uwsgi-plugin-python3 supervisor && \
 	apt-get --purge autoremove -y && \
