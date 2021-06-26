@@ -1,18 +1,22 @@
-name: Docker Image CI
+name: Docker Image Publish
 
-on:
-  push:
-    branches: [ v3.1 ]
+on: [push]
 
 jobs:
 
-  build:
+  publish:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag testssl-web:3.1-latest --tag testssl-web:3.1-$(date +%s)
+       env:
+        GHCR_PAT: ${{ secrets.GHCR_PAT }}
+      run: | 
+        echo $GHCR_PAT | docker login ghcr.io -u shartge --password-stdin
+        docker build . --file Dockerfile --tag ghcr.io/shartge/testssl-web:3.1-latest
+        docker run ghcr.io/shartge/testssl-web:3.1-latest
+        docker push ghcr.io/shartge/testssl-web:3.1-latest
 
 

@@ -7,6 +7,7 @@
 FROM debian:buster-slim
 ENV DEBIAN_FRONTEND noninteractive
 LABEL maintainer="sven@svenhartge.de"
+LABEL org.opencontainers.image.source="https://github.com/shartge/testssl-web"
 
 #########################################
 # Number of uWSGI processes and threads: amount of max. parallel running SSL checks
