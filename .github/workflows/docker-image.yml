@@ -10,6 +10,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with: submodules: 'true'
     - name: Build the Docker image
       env:
         GHCR_PAT: ${{ secrets.GHCR_PAT }}
