@@ -3,7 +3,7 @@ name: Docker Image Publish
 on:
   push:
     branches:
-      - 'v3.1'
+      - 'master'
 
 jobs:
   docker:
@@ -35,6 +35,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ghcr.io/shartge/testssl-web:latest
-            ghcr.io/shartge/testssl-web:3.1
+            ghcr.io/shartge/testssl-web:dev
 
