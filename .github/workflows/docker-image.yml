@@ -58,9 +58,6 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ steps.meta.outputs.tags }}
-            #ghcr.io/shartge/testssl-web:latest
-            #ghcr.io/shartge/testssl-web:3.1
-            #hartge/testssl-web:latest
-            #hartge/testssl-web:3.1
           labels: |
             ${{ steps.meta.outputs.labels }}
+ 
