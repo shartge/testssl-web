@@ -7,8 +7,8 @@ based on the [testssl.sh-webfrontend](https://github.com/TKCERT/testssl.sh-webfr
 The testssl.sh-web Application uses the [testssl.sh](https://github.com/drwetter/testssl.sh) Script from Dirk Wetter.
 
 ```
-docker pull hartge/testssl-web
-docker run --rm --name testssl-web -p 5000:5000 hartge/testssl-web
+docker pull ghcr.io/shartge/testssl-web
+docker run --rm --name testssl-web -p 5000:5000 ghcr.io/shartge/testssl-web
 ```
 
 ## Configuration
@@ -20,7 +20,7 @@ You can configure the number of uWSGI processes and threads inside the container
 Example:
 
 ```
-docker run --rm --name testssl-web -e UWSGI_THREADS=8 -e UWSGI_PROCESSES=2 -p 5000:5000 hartge/testssl-web
+docker run --rm --name testssl-web -e UWSGI_THREADS=8 -e UWSGI_PROCESSES=2 -p 5000:5000 ghcr.io/shartge/testssl-web
 ```
 
 ### Setting the timeout
