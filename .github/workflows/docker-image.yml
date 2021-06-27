@@ -1,23 +1,40 @@
 name: Docker Image Publish
 
-on: [push]
+on:
+  push:
+    branches:
+      - 'v3.1'
 
 jobs:
-
-  publish:
-
+  docker:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-      with: 
-        submodules: 'true'
-    - name: Build the Docker image
-      env:
-        GHCR_PAT: ${{ secrets.GHCR_PAT }}
-      run: |
-        echo $GHCR_PAT | docker login ghcr.io -u shartge --password-stdin
-        docker build . --file Dockerfile --tag ghcr.io/shartge/testssl-web:3.1-latest
-        docker push ghcr.io/shartge/testssl-web:3.1-latest
-
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with: 
+          submodules: 'true'
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v1 
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/shartge/testssl-web:latest
+            ghcr.io/shartge/testssl-web:3.1
 
