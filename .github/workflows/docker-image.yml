@@ -28,11 +28,14 @@ jobs:
             ghcr.io/shartge/testssl-web
             docker.io/hartge/testssl-web
           tags: |
-            type=edge,branch=v3.1
             type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+          flavor: |
+            latest=true
+            prefix=
+            suffix=
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
