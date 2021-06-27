@@ -30,7 +30,7 @@ You can configure the timeout for each test by setting the variable `TEST_TIMEOU
 Example:
 
 ```
-docker run --rm --name testssl-web -e TEST_TIMEOUT=600 -p 5000:5000 hartge/testssl-web
+docker run --rm --name testssl-web -e TEST_TIMEOUT=600 -p 5000:5000 ghcr.io/shartge/testssl-web
 ```
 
 ### Enabling debugging
@@ -42,7 +42,7 @@ I recommends to also increase `TEST_TIMEOUT` to at lease 600 when debugging.
 Example:
 
 ```
-docker run --rm --name testssl-web -e TESTSSLDEBUG=2 -p 5000:5000 hartge/testssl-web
+docker run --rm --name testssl-web -e TESTSSLDEBUG=2 -p 5000:5000 ghcr.io/shartge/testssl-web
 ```
 
 ### Integration into external Nginx
