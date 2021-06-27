@@ -1,11 +1,14 @@
+---
 name: Docker Image Publish
 
 on:
   push:
     branches:
       - 'v3.1'
+    tags:
+      - 'v*'
   schedule:
-    - cron: '45 15 * * *'
+    - cron: '5 * * * *'
 
 jobs:
   docker:
@@ -14,8 +17,17 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v2
-        with: 
+        with:
           submodules: 'true'
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ steps.meta.outputs.tags }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -24,13 +36,15 @@ jobs:
         uses: docker/setup-buildx-action@v1
       -
         name: Login to DockerHub
-        uses: docker/login-action@v1 
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Login to GitHub Container Registry
-        uses: docker/login-action@v1 
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -41,10 +55,12 @@ jobs:
         with:
           context: .
           platforms: linux/amd64,linux/arm64,linux/arm/v7
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: |
-            ghcr.io/shartge/testssl-web:latest
-            ghcr.io/shartge/testssl-web:3.1
-            hartge/testssl-web:latest
-            hartge/testssl-web:3.1
-
+            ${{ steps.meta.outputs.tags }}
+            #ghcr.io/shartge/testssl-web:latest
+            #ghcr.io/shartge/testssl-web:3.1
+            #hartge/testssl-web:latest
+            #hartge/testssl-web:3.1
+          labels: |
+            ${{ steps.meta.outputs.labels }}
