@@ -10,12 +10,6 @@ on:
   schedule:
     - cron: '5 * * * *'
 
-env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
-
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -30,8 +24,11 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: |
+            ghcr.io/shartge/testssl-web
+            docker.io/hartge/testssl-web
           tags: |
+            type=edge,branch=v3.1
             type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern={{version}}
