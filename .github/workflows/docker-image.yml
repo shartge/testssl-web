@@ -8,7 +8,7 @@ on:
     tags:
       - 'v*'
   schedule:
-    - cron: '35 14 * * *'
+    - cron: '35 03 * * *'
 
 jobs:
   docker:
