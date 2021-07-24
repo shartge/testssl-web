@@ -35,7 +35,7 @@ RUN apt-get update --fix-missing -y && \
 
 # Copy applications and entrypoint inside the container
 COPY webfrontend/ /testssl
-COPY testssl.sh/ /testssl/testssl.sh
+COPY testssl.sh/ /testssl.sh
 COPY entrypoint.sh /
 
 # Configure nginx
