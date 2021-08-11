@@ -28,7 +28,7 @@ RUN apt-get update --fix-missing -y && \
 	apt-get --no-install-recommends -y install \
 		openssl net-tools dnsutils aha xxd \
 		python3-pkg-resources python3-flask bsdmainutils procps \
-		nginx-light uwsgi uwsgi-plugin-python3 supervisor && \
+		nginx-light uwsgi uwsgi-plugin-python3 supervisor socat && \
 	apt-get --purge autoremove -y && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/* /var/cache/apt* /tmp/* /var/tmp/* /var/log/apt/* /var/log/*log
