@@ -65,6 +65,7 @@ jobs:
           context: .
           platforms: linux/amd64
           push: ${{ github.event_name != 'pull_request' }}
+          provenance: false
           tags: |
             ${{ steps.meta.outputs.tags }}
           labels: |
