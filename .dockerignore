@@ -1,9 +1,16 @@
 .git*
 */.git*
-testssl.sh/bin/openssl.Darwin.x86_64
-testssl.sh/bin/openssl.FreeBSD.amd64
+
+# Exclude everything from the Docker build context:
+testssl.sh/*
+
+# Except for this content:
+!testssl.sh/bin/
+!testssl.sh/etc/
+!testssl.sh/testssl.sh
+
+# But additionally exclude this nested content:
+testssl.sh/bin/openssl.Darwin.*
+testssl.sh/bin/openssl.FreeBSD.*
 testssl.sh/bin/openssl.Linux.i686
 testssl.sh/bin/openssl.Linux.x86_64.krb
-testssl.sh/t
-testssl.sh/utils
-testssl.sh/doc
