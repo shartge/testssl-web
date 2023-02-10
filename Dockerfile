@@ -35,7 +35,6 @@ RUN apt-get update --fix-missing -y && \
 
 # Copy applications and entrypoint inside the container
 COPY webfrontend/ /testssl
-COPY testssl.sh/ /testssl.sh
 COPY entrypoint.sh /
 
 # Configure nginx
@@ -47,6 +46,9 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Configure uwsgi
 COPY uwsgi.ini /etc/uwsgi/
+
+# Copy testssl.sh last
+COPY testssl.sh/ /testssl.sh
 
 # Expose ports
 EXPOSE 5000
