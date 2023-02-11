@@ -1,4 +1,4 @@
-# VERSION 0.5
+# syntax=docker/dockerfile:1.4
 # AUTHOR:         Sven Hartge <sven@svenhartge.de>
 # DESCRIPTION:    Image with testssl.sh and testssl.sh-webfrontend
 # TO_BUILD:       docker build -t testssl-web .
@@ -33,10 +33,6 @@ RUN apt-get update --fix-missing -y && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/* /var/cache/apt* /tmp/* /var/tmp/* /var/log/apt/* /var/log/*log
 
-# Copy applications and entrypoint inside the container
-COPY webfrontend/ /testssl
-COPY entrypoint.sh /
-
 # Configure nginx
 COPY nginx.conf /etc/nginx/
 COPY testssl.conf /etc/nginx/sites-enabled/default
@@ -47,8 +43,13 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Configure uwsgi
 COPY uwsgi.ini /etc/uwsgi/
 
+# Use --link feature to create independend layers, improving caching
+# Copy applications and entrypoint inside the container
+COPY --link webfrontend/ /testssl
+COPY --link entrypoint.sh /
+
 # Copy testssl.sh last
-COPY testssl.sh/ /testssl.sh
+COPY --link testssl.sh /testssl.sh
 
 # Expose ports
 EXPOSE 5000
