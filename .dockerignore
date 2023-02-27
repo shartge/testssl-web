@@ -14,3 +14,6 @@ testssl.sh/bin/openssl.Darwin.*
 testssl.sh/bin/openssl.FreeBSD.*
 testssl.sh/bin/openssl.Linux.i686
 testssl.sh/bin/openssl.Linux.x86_64.krb
+testssl.sh/bin/*.txt
+testssl.sh/bin/*.md
+testssl.sh/bin/*.diff
