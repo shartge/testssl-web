@@ -4,12 +4,10 @@
 # TO_BUILD:       docker build -t testssl-web .
 # TO_RUN:         docker run -d -p 5000:5000 --name testssl-web testssl-web
 
-ENV DEBIAN_FRONTEND noninteractive
-LABEL maintainer="sven@svenhartge.de"
-LABEL org.opencontainers.image.source="https://github.com/shartge/testssl-web"
 
 # Builder
 FROM debian:bookworm-slim as builder
+ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update --fix-missing -y && \
 	apt-get --no-install-recommends -y install git ssl-cert ca-certificates
 
@@ -20,6 +18,9 @@ RUN rm -r /testssl.sh/.git/ /testssl.sh/bin/openssl.Darwin.x86_64 /testssl.sh/bi
 
 # Final Image
 FROM debian:bookworm-slim
+ENV DEBIAN_FRONTEND noninteractive
+LABEL maintainer="sven@svenhartge.de"
+LABEL org.opencontainers.image.source="https://github.com/shartge/testssl-web"
 #########################################
 # Number of uWSGI processes and threads: amount of max. parallel running SSL checks
 ENV UWSGI_PROCESSES 4
