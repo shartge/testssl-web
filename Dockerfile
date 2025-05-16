@@ -4,11 +4,22 @@
 # TO_BUILD:       docker build -t testssl-web .
 # TO_RUN:         docker run -d -p 5000:5000 --name testssl-web testssl-web
 
-FROM debian:bookworm-slim
 ENV DEBIAN_FRONTEND noninteractive
 LABEL maintainer="sven@svenhartge.de"
 LABEL org.opencontainers.image.source="https://github.com/shartge/testssl-web"
 
+# Builder
+FROM debian:bookworm-slim as builder
+RUN apt-get update --fix-missing -y && \
+	apt-get --no-install-recommends -y install git ssl-cert ca-certificates
+
+RUN git clone --depth 1 --branch=master https://github.com/shartge/testssl.sh-webfrontend.git /testssl
+RUN git clone --depth 1 --branch=3.2 https://github.com/testssl/testssl.sh.git /testssl.sh
+RUN rm -r /testssl/.git/
+RUN rm -r /testssl.sh/.git/ /testssl.sh/bin/openssl.Darwin.x86_64 /testssl.sh/bin/openssl.FreeBSD.amd64
+
+# Final Image
+FROM debian:bookworm-slim
 #########################################
 # Number of uWSGI processes and threads: amount of max. parallel running SSL checks
 ENV UWSGI_PROCESSES 4
@@ -46,15 +57,13 @@ COPY uwsgi.ini /etc/uwsgi/
 # Start-Code
 COPY entrypoint.sh /
 
-# Start
+# Add Entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/bin/supervisord","-c","/etc/supervisor/supervisord.conf"]
 
-# Add applications and entrypoint inside the container
-ADD https://github.com/shartge/testssl.sh-webfrontend.git#master /testssl
-
-# Add testssl.sh last
-ADD https://github.com/testssl/testssl.sh.git#3.2 /testssl.sh
+# Add applications inside the container
+copy --from=builder /testssl /testssl
+copy --from=builder /testssl.sh /testssl.sh
 
 # Expose ports
 EXPOSE 5000
