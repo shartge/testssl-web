@@ -8,16 +8,22 @@
 # Builder
 FROM debian:bookworm-slim as builder
 ENV DEBIAN_FRONTEND noninteractive
+
+ENV WEB_BRANCH master
+ENV TS_BRANCH 3.2
+
 RUN apt-get update --fix-missing -y && \
-	apt-get --no-install-recommends -y install git ssl-cert ca-certificates
+	apt-get --no-install-recommends -y install git ca-certificates
 
 # Bust the Cache
-ADD https://api.github.com/repos/shartge/testssl.sh-webfrontend/git/refs/heads/master testssl.sh-webfrontend-version.json
-RUN git clone --depth 1 --branch=master https://github.com/shartge/testssl.sh-webfrontend.git /testssl
+ADD https://api.github.com/repos/shartge/testssl.sh-webfrontend/git/refs/heads/${WEB_BRANCH} testssl.sh-webfrontend-version.json
+RUN git clone --depth 1 --branch=${WEB_BRANCH} https://github.com/shartge/testssl.sh-webfrontend.git /testssl
 # Bust the Cache again
-ADD https://api.github.com/repos/testssl/testssl.sh/git/refs/heads/3.2 testssl.sh-version.json
-RUN git clone --depth 5 --branch=3.2 https://github.com/testssl/testssl.sh.git /testssl.sh
+ADD https://api.github.com/repos/testssl/testssl.sh/git/refs/heads/${TS_BRANCH} testssl.sh-version.json
+RUN git clone --depth 5 --branch=${TS_BRANCH} https://github.com/testssl/testssl.sh.git /testssl.sh
+# Create Commit log for Webinterface
 RUN cd /testssl.sh; git log -n 5 > /testssl.sh/testssl-changelog.txt
+# Remove some cruft
 RUN rm -r /testssl/.git/
 RUN rm -r /testssl.sh/.git/ /testssl.sh/bin/openssl.Darwin.x86_64 /testssl.sh/bin/openssl.FreeBSD.amd64
 
