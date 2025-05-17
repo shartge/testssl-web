@@ -13,6 +13,7 @@ RUN apt-get update --fix-missing -y && \
 
 RUN git clone --depth 1 --branch=master https://github.com/shartge/testssl.sh-webfrontend.git /testssl
 RUN git clone --depth 1 --branch=3.2 https://github.com/testssl/testssl.sh.git /testssl.sh
+RUN git log -n 5 > /testssl.sh/testssl-changelog.txt
 RUN rm -r /testssl/.git/
 RUN rm -r /testssl.sh/.git/ /testssl.sh/bin/openssl.Darwin.x86_64 /testssl.sh/bin/openssl.FreeBSD.amd64
 
