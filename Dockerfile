@@ -11,7 +11,11 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update --fix-missing -y && \
 	apt-get --no-install-recommends -y install git ssl-cert ca-certificates
 
+# Bust the Cache
+ADD https://api.github.com/repos/shartge/testssl.sh-webfrontend/git/refs/heads/master testssl.sh-webfrontend-version.json
 RUN git clone --depth 1 --branch=master https://github.com/shartge/testssl.sh-webfrontend.git /testssl
+# Bust the Cache again
+ADD https://api.github.com/repos/testssl/testssl.sh/git/refs/heads/3.2 testssl.sh-version.json
 RUN git clone --depth 5 --branch=3.2 https://github.com/testssl/testssl.sh.git /testssl.sh
 RUN cd /testssl.sh; git log -n 5 > /testssl.sh/testssl-changelog.txt
 RUN rm -r /testssl/.git/
