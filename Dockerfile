@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.4
 # AUTHOR:         Sven Hartge <sven@svenhartge.de>
 # DESCRIPTION:    Image with testssl.sh and testssl.sh-webfrontend
-# TO_BUILD:       docker build -t testssl-web .
+# TO_BUILD:       docker buildx build -t testssl-web .
 # TO_RUN:         docker run -d -p 5000:5000 --name testssl-web testssl-web
 
 
@@ -12,8 +12,10 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV WEB_BRANCH master
 ENV TS_BRANCH 3.2
 
-RUN apt-get update --fix-missing -y && \
-	apt-get --no-install-recommends -y install git ca-certificates
+RUN <<BUILD1
+apt-get update --fix-missing -y
+apt-get --no-install-recommends -y install git ca-certificates
+BUILD1
 
 # Bust the Cache
 ADD https://api.github.com/repos/shartge/testssl.sh-webfrontend/git/refs/heads/${WEB_BRANCH} testssl.sh-webfrontend-version.json
@@ -24,8 +26,10 @@ RUN git clone --depth 5 --branch=${TS_BRANCH} https://github.com/testssl/testssl
 # Create Commit log for Webinterface
 RUN cd /testssl.sh; git log -n 5 > /testssl.sh/testssl-changelog.txt
 # Remove some cruft
-RUN rm -r /testssl/.git/
-RUN rm -r /testssl.sh/.git/ /testssl.sh/bin/openssl.Darwin.x86_64 /testssl.sh/bin/openssl.FreeBSD.amd64
+RUN <<BUILD2
+rm -r /testssl/.git/
+rm -r /testssl.sh/.git/ /testssl.sh/bin/openssl.Darwin.x86_64 /testssl.sh/bin/openssl.FreeBSD.amd64
+BUILD2
 
 # Final Image
 FROM debian:bookworm-slim
@@ -47,14 +51,15 @@ ENV TESTSSLDEBUG 0
 #########################################
 
 # Install Packages
-RUN apt-get update --fix-missing -y && \
-	apt-get --no-install-recommends -y install \
-		openssl net-tools dnsutils aha xxd \
-		python3-pkg-resources python3-flask bsdmainutils procps \
-		nginx-light uwsgi uwsgi-plugin-python3 supervisor socat && \
-	apt-get --purge autoremove -y && \
-	apt-get clean && \
-	rm -rf /var/lib/apt/lists/* /var/cache/apt* /tmp/* /var/tmp/* /var/log/apt/* /var/log/*log
+RUN <<FINAL1
+apt-get update --fix-missing -y
+apt-get --no-install-recommends -y install openssl net-tools dnsutils aha xxd \\
+	python3-pkg-resources python3-flask bsdmainutils procps nginx-light \\
+	uwsgi uwsgi-plugin-python3 supervisor socat
+apt-get --purge autoremove -y
+apt-get clean
+rm -rf /var/lib/apt/lists/* /var/cache/apt* /tmp/* /var/tmp/* /var/log/apt/* /var/log/*log
+FINAL1
 
 # Configure nginx
 COPY nginx.conf /etc/nginx/
