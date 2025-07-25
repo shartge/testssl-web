@@ -4,7 +4,6 @@
 # TO_BUILD:       docker buildx build -t testssl-web .
 # TO_RUN:         docker run -d -p 5000:5000 --name testssl-web testssl-web
 
-
 # Builder
 FROM debian:bookworm-slim as builder
 ENV DEBIAN_FRONTEND noninteractive
