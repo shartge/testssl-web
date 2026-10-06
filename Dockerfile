@@ -5,7 +5,7 @@
 # TO_RUN:         docker run -d -p 5000:5000 --name testssl-web testssl-web
 
 # Builder
-FROM debian:bookworm-slim as builder
+FROM debian:trixie-slim as builder
 ENV DEBIAN_FRONTEND noninteractive
 
 ENV WEB_BRANCH master
@@ -31,7 +31,7 @@ rm -r /testssl.sh/.git/ /testssl.sh/bin/openssl.Darwin.x86_64 /testssl.sh/bin/op
 BUILD2
 
 # Final Image
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 ENV DEBIAN_FRONTEND noninteractive
 LABEL maintainer="sven@svenhartge.de"
 LABEL org.opencontainers.image.source="https://github.com/shartge/testssl-web"
@@ -54,7 +54,7 @@ RUN <<FINAL1
 apt-get update --fix-missing -y
 apt-get --no-install-recommends -y install openssl net-tools dnsutils aha xxd python3-pkg-resources python3-flask bsdmainutils procps nginx-light uwsgi uwsgi-plugin-python3 supervisor socat
 apt-get --purge autoremove -y
-apt-get clean
+apt-get distclean
 rm -rf /var/lib/apt/lists/* /var/cache/apt* /tmp/* /var/tmp/* /var/log/apt/* /var/log/*log
 FINAL1
 
